@@ -1,0 +1,14 @@
+{
+  "courseProgress": {
+    "completed": 3,
+    "total": 5,
+    "percentage": 60
+  },
+  "upcomingDeadlines": [
+    { "course": "Math 101", "date": "2025-08-20" },
+    { "course": "Physics 201", "date": "2025-08-22" }
+  ],
+  "quizHistory": [
+    { "quiz": "Quiz 1", "score": 85, "date": "2025-08-15" }
+  ]
+}

@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "id": 1,
+    "role": "Admin",
+    "name": "Admin User",
+    "permissions": ["viewUsageStats", "viewActiveUsers"]
+  },
+  {
+    "id": 2,
+    "role": "Student",
+    "name": "Student User",
+    "permissions": ["viewProgress", "viewDeadlines"]
+  }
+]

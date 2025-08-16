@@ -1,0 +1,12 @@
+{
+  "adminUsageChart": {
+    "labels": ["Active Users", "Inactive Users"],
+    "data": [120, 30],
+    "type": "pie"
+  },
+  "studentProgressChart": {
+    "labels": ["Completed", "Remaining"],
+    "data": [3, 2],
+    "type": "bar"
+  }
+}

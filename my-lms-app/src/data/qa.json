@@ -1,0 +1,27 @@
+{
+  "admin": [
+    {
+      "question": "How is my class doing this week?",
+      "answer": "Your class has 120 active users with an 85% completion rate this week."
+    }
+  ],
+  "student": [
+    {
+      "question": "What is my course progress?",
+      "answer": "You have completed 60% of your courses."
+    },
+    {
+      "question": "Show my weekly progress",
+      "answer": "Here’s your weekly progress.",
+      "chart": {
+        "data": [
+          { "day": "Mon", "progress": 10 },
+          { "day": "Tue", "progress": 25 },
+          { "day": "Wed", "progress": 40 },
+          { "day": "Thu", "progress": 60 }
+        ],
+        "type": "line"
+      }
+    }
+  ]
+}
