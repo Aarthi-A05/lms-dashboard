@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button, FormControl, InputLabel, Select, MenuItem, Box, Typography } from '@mui/material';
-import users from '../data/users.json'; // Import mock users from JSON file
+import users from '../data/users.json';
+import { useRole } from '../contexts/RoleContext';
 
 // Define the shape of a user object for TypeScript
 interface User {
@@ -10,21 +11,23 @@ interface User {
   permissions: string[];
 }
 
-// RoleSelector component to simulate login with role selection
-const RoleSelector = ({ onSelectRole }: { onSelectRole: (user: User | null) => void }) => {
-  const [selectedRole, setSelectedRole] = useState<string>(''); // State to track selected role
+const RoleSelector = () => {
+  const { setCurrentUser } = useRole(); // Access setCurrentUser from context
+  const [selectedRole, setSelectedRole] = useState<string>('');
 
-  // Handle the login action when the button is clicked
+  // Handle login action when the button is clicked
   const handleSelect = () => {
+    console.log('handleSelect triggered, selectedRole:', selectedRole); // Debug log
     if (!selectedRole) {
-      // Prevent login if no role is selected
       console.warn('Please select a role before logging in.');
       return;
     }
-    const user = users.find((u: User) => u.role === selectedRole); // Find user by role
+    const user = users.find((u: User) => u.role === selectedRole);
     if (user) {
-      localStorage.setItem('currentRole', JSON.stringify(user)); // Persist user data in localStorage
-      onSelectRole(user); // Notify parent component of the selected role
+      console.log('Found user:', user); // Debug log
+      localStorage.setItem('currentRole', JSON.stringify(user)); // Persist user data
+      setCurrentUser(user); // Update context with selected user
+      console.log('User set in context, currentUser should update:', user); // Debug log
     } else {
       console.error('User not found for selected role:', selectedRole);
     }

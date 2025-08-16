@@ -1,24 +1,39 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-// Define the shape of the context value
-interface RoleContextType {
-  currentUser: any; // Will refine to User type later
-  setCurrentUser: React.Dispatch<React.SetStateAction<any>>;
+interface User {
+  id: number;
+  role: string;
+  name: string;
+  permissions: string[];
 }
 
-// Create the context with a default value
+interface RoleContextType {
+  currentUser: User | null;
+  setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
+}
+
 export const RoleContext = createContext<RoleContextType | undefined>(undefined);
 
-// Provider component to wrap the app
-export const RoleProvider = ({ children }: { children: React.ReactNode }) => {
-  const [currentUser, setCurrentUser] = useState<any>(null);
+export const RoleProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
-  // Load persisted role from localStorage on mount
   useEffect(() => {
     const storedRole = localStorage.getItem('currentRole');
     if (storedRole) {
       setCurrentUser(JSON.parse(storedRole));
+      console.log('Initial load or update, currentUser:', JSON.parse(storedRole));
     }
+
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'currentRole') {
+        const newRole = e.newValue ? JSON.parse(e.newValue) : null;
+        console.log('Storage change detected, new role:', newRole);
+        setCurrentUser(newRole);
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
   }, []);
 
   return (
@@ -28,7 +43,6 @@ export const RoleProvider = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-// Custom hook to use the context
 export const useRole = () => {
   const context = useContext(RoleContext);
   if (!context) {
