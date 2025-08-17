@@ -1,9 +1,11 @@
 import './App.css';
 import RoleSelector from './pages/RoleSelector';
-import AdminUsageWidget from './components/AdminUsageWidget'; // Reintroduce for testing
+import { RoleProvider, useRole } from './contexts/RoleContext';
+import AdminUsageWidget from './components/AdminUsageWidget';
+import StudentProgressWidget from './components/StudentProgressWidget';
 
 // App component to handle rendering based on current user
-function App({ currentUser }: { currentUser: any }) { // Pass currentUser as a prop
+function App({ currentUser }: { currentUser: any }) {
   return (
     <div className="App">
       {currentUser ? (
@@ -17,7 +19,8 @@ function App({ currentUser }: { currentUser: any }) { // Pass currentUser as a p
           >
             Logout
           </button>
-          <AdminUsageWidget />
+          {currentUser.role === 'Admin' && <AdminUsageWidget />}
+          {currentUser.role === 'Student' && <StudentProgressWidget />}
         </div>
       ) : (
         <RoleSelector />
