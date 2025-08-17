@@ -1,9 +1,8 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, FormControl, InputLabel, Select, MenuItem, Box, Typography } from '@mui/material';
 import users from '../data/users.json';
 import { useRole } from '../contexts/RoleContext';
 
-// Define the shape of a user object for TypeScript
 interface User {
   id: number;
   role: string;
@@ -12,26 +11,47 @@ interface User {
 }
 
 const RoleSelector = () => {
-  const { setCurrentUser } = useRole(); // Access setCurrentUser from context
+  const { currentUser, setCurrentUser } = useRole();
   const [selectedRole, setSelectedRole] = useState<string>('');
+  const [isUsersLoaded, setIsUsersLoaded] = useState<boolean>(false);
 
-  // Handle login action when the button is clicked
+  useEffect(() => {
+    if (users && users.length > 0) {
+      setIsUsersLoaded(true);
+    } else {
+      console.error('users.json is empty or not loaded:', users);
+    }
+  }, []);
+
   const handleSelect = () => {
-    console.log('handleSelect triggered, selectedRole:', selectedRole); // Debug log
+    console.log('handleSelect triggered, selectedRole:', selectedRole);
+    if (!isUsersLoaded) {
+      console.error('users.json not loaded');
+      return;
+    }
     if (!selectedRole) {
       console.warn('Please select a role before logging in.');
       return;
     }
     const user = users.find((u: User) => u.role === selectedRole);
     if (user) {
-      console.log('Found user:', user); // Debug log
-      localStorage.setItem('currentRole', JSON.stringify(user)); // Persist user data
-      setCurrentUser(user); // Update context with selected user
-      console.log('User set in context, currentUser should update:', user); // Debug log
+      console.log('Found user:', user);
+      localStorage.setItem('currentRole', JSON.stringify(user));
+      setCurrentUser(user);
+      console.log('User set in context');
     } else {
       console.error('User not found for selected role:', selectedRole);
     }
   };
+
+  const handleLogout = () => {
+    if (currentUser) {
+      localStorage.removeItem('currentRole'); // Clear persisted role
+      window.location.reload(); // Reload to reset the app state
+    }
+  };
+
+  if (!isUsersLoaded) return <div>Loading users data...</div>;
 
   return (
     <Box
@@ -63,6 +83,11 @@ const RoleSelector = () => {
       <Button variant="contained" color="primary" onClick={handleSelect}>
         Login
       </Button>
+      {currentUser && (
+        <Button variant="contained" color="secondary" onClick={handleLogout} sx={{ mt: 2 }}>
+          Logout
+        </Button>
+      )}
     </Box>
   );
 };
