@@ -1,26 +1,30 @@
 {
   "admin": [
     {
-      "question": "How is my class doing this week?",
-      "answer": "Your class has 120 active users with an 85% completion rate this week."
+      "q": "Show usage stats",
+      "a": "Here are your usage statistics.",
+      "chart": {
+        "data": [
+          { "name": "Mon", "value": 400 },
+          { "name": "Tue", "value": 300 },
+          { "name": "Wed", "value": 600 },
+          { "name": "Thu", "value": 800 },
+          { "name": "Fri", "value": 500 }
+        ]
+      }
     }
   ],
   "student": [
     {
-      "question": "What is my course progress?",
-      "answer": "You have completed 60% of your courses."
-    },
-    {
-      "question": "Show my weekly progress",
-      "answer": "Here’s your weekly progress.",
+      "q": "Show my weekly progress",
+      "a": "Here’s your weekly progress.",
       "chart": {
         "data": [
-          { "day": "Mon", "progress": 10 },
-          { "day": "Tue", "progress": 25 },
-          { "day": "Wed", "progress": 40 },
-          { "day": "Thu", "progress": 60 }
-        ],
-        "type": "line"
+          { "name": "Week 1", "value": 20 },
+          { "name": "Week 2", "value": 40 },
+          { "name": "Week 3", "value": 60 },
+          { "name": "Week 4", "value": 80 }
+        ]
       }
     }
   ]
