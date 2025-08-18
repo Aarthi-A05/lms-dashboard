@@ -1,7 +1,7 @@
-import React from 'react';
 import { Grid, Card, CardContent, Typography } from '@mui/material';
 import { PieChart, Pie, Cell, Tooltip, Legend } from 'recharts';
-import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
+import type { GridColDef } from '@mui/x-data-grid'; // type-only import
 import studentMetrics from '../data/studentMetrics.json';
 
 const pieData = [
@@ -22,7 +22,16 @@ const rows = studentMetrics.quizHistory.map((item, index) => ({ id: index + 1, .
 const StudentWidgets = () => {
   return (
     <Grid container spacing={2}>
-      <Grid sx={{ flex: '0 0 100%', maxWidth: '100%', [theme => theme.breakpoints.up('md')]: { flex: '0 0 50%', maxWidth: '50%' } }}>
+      <Grid
+        sx={{
+          flex: '0 0 100%',
+          maxWidth: '100%',
+          '@media (min-width:900px)': {
+            flex: '0 0 50%',
+            maxWidth: '50%',
+          },
+        }}
+      >
         <Card>
           <CardContent>
             <Typography variant="h6" gutterBottom>
@@ -48,17 +57,43 @@ const StudentWidgets = () => {
           </CardContent>
         </Card>
       </Grid>
-      <Grid sx={{ flex: '0 0 100%', maxWidth: '100%', [theme => theme.breakpoints.up('md')]: { flex: '0 0 50%', maxWidth: '50%' } }}>
+      <Grid
+        sx={{
+          flex: '0 0 100%',
+          maxWidth: '100%',
+          '@media (min-width:900px)': {
+            flex: '0 0 50%',
+            maxWidth: '50%',
+          },
+        }}
+      >
         <Card>
           <CardContent>
             <Typography variant="h6" gutterBottom>
               Quiz History
             </Typography>
-            <DataGrid rows={rows} columns={columns} pageSize={5} autoHeight />
+            <DataGrid
+              rows={rows}
+              columns={columns}
+              pageSizeOptions={[5]}
+              initialState={{
+                pagination: { paginationModel: { pageSize: 5, page: 0 } }
+              }}
+              autoHeight
+            />
           </CardContent>
         </Card>
       </Grid>
-      <Grid sx={{ flex: '0 0 100%', maxWidth: '100%', [theme => theme.breakpoints.up('md')]: { flex: '0 0 33.3333%', maxWidth: '33.3333%' } }}>
+      <Grid
+        sx={{
+          flex: '0 0 100%',
+          maxWidth: '100%',
+          '@media (min-width:900px)': {
+            flex: '0 0 33.3333%',
+            maxWidth: '33.3333%',
+          },
+        }}
+      >
         <Card>
           <CardContent>
             <Typography variant="h6">Progress Percentage</Typography>
