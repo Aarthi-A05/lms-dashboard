@@ -8,8 +8,6 @@ import ChatbotModal from '../components/ChatbotModal';
 const Dashboard = () => {
   const { currentUser } = useRole();
 
-  if (!currentUser) return <div>Please select a role or log in</div>;
-
   const handleLogout = () => {
     localStorage.removeItem('currentRole');
     window.location.reload();
@@ -26,10 +24,22 @@ const Dashboard = () => {
         <Typography variant="h4" gutterBottom>
           {currentUser.role} Dashboard
         </Typography>
-        <Button variant="contained" color="secondary" onClick={handleLogout} sx={{ mb: 2, mr: 2 }}>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={handleLogout}
+          sx={{ mb: 2, mr: 2 }}
+          aria-label="Logout button"
+        >
           Logout
         </Button>
-        <Button variant="contained" color="primary" onClick={handleChatOpen} sx={{ mb: 2 }}>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleChatOpen}
+          sx={{ mb: 2 }}
+          aria-label="Open chat button"
+        >
           Open Chat
         </Button>
       </Grid>

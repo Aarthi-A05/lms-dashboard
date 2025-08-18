@@ -48,5 +48,5 @@ export const useRole = (): RoleContextType => {
   if (!context) {
     throw new Error('useRole must be used within a RoleProvider');
   }
-  return context as RoleContextType; // Explicit cast to ensure type safety
+  return context as RoleContextType;
 };

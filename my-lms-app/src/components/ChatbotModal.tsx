@@ -4,7 +4,6 @@ import { RoleContext } from '../contexts/RoleContext';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import qaData from '../data/qa.json';
 
-// Type definitions
 interface QAItem {
   q: string;
   a: string;
@@ -100,7 +99,7 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({ open, onClose }) => {
           <Typography variant="h6">
             Chat with {currentUser?.role} Assistant
           </Typography>
-          <IconButton onClick={handleClear} color="error">
+          <IconButton onClick={handleClear} color="error" aria-label="Clear chat button">
             Clear Chat
           </IconButton>
         </Box>
@@ -130,10 +129,11 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({ open, onClose }) => {
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your question..."
             onKeyPress={(e: React.KeyboardEvent) => e.key === 'Enter' && handleSend()}
+            aria-label="Chat input field"
             error={!input.trim() && messages.length > 0 && messages[messages.length - 1].bot === "Please enter a valid question."}
             helperText={!input.trim() && messages.length > 0 && messages[messages.length - 1].bot === "Please enter a valid question." ? "Input cannot be empty" : ""}
           />
-          <Button variant="contained" onClick={handleSend} disabled={!input.trim()}>
+          <Button variant="contained" onClick={handleSend} disabled={!input.trim()} aria-label="Send message button">
             Send
           </Button>
         </Box>
