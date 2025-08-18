@@ -7,11 +7,7 @@ const AppContent = () => {
   const { currentUser } = useRole();
 
   // This checks RBAC before rendering the dashboard
-  if (!currentUser) {
-    return <RoleSelector />;
-  }
-
-  return <Dashboard />;
+  return currentUser ? <Dashboard /> : <RoleSelector />;
 };
 
 export default function Root() {

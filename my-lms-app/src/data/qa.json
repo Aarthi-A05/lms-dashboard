@@ -55,8 +55,20 @@
       "a": "Hi! How can I assist you today?"
     },
     {
+      "q": "hai",
+      "a": "Hello! How can I assist you today?"
+    },
+    {
       "q": "help",
       "a": "You can ask 'Show my weekly progress' or 'Show usage stats' depending on your role!"
+    },
+    {
+      "q": "bye",
+      "a": "Goodbye! Have a great day ahead."
+    },
+    {
+      "q": "thanks",
+      "a": "You're welcome! Happy to help."
     }
   ]
 }

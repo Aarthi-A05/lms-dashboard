@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Modal, Box, TextField, Button, Typography, IconButton } from '@mui/material';
 import { RoleContext } from '../contexts/RoleContext';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import CloseIcon from '@mui/icons-material/Close';
 import qaData from '../data/qa.json';
 
 interface QAItem {
@@ -75,35 +76,54 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({ open, onClose }) => {
     setInput('');
   };
 
-  const handleClear = () => {
-    setMessages([]);
-  };
-
   return (
     <Modal open={open} onClose={onClose}>
       <Box
         sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: { xs: '90%', sm: '70%', md: '50%' },
-          maxHeight: '80vh',
+          position: 'fixed',
+          bottom: 20,
+          right: 20,
+          width: { xs: '90%', sm: '350px' },
+          height: '500px',
           bgcolor: 'background.paper',
+          borderRadius: 3,
           boxShadow: 24,
-          p: 2,
-          overflowY: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
-          <Typography variant="h6">
+        {/* Header */}
+        <Box
+          sx={{
+            flexShrink: 0,
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            p: 2,
+            borderBottom: '1px solid #e0e0e0',
+            borderTopLeftRadius: 12,
+            borderTopRightRadius: 12,
+            bgcolor: 'primary.main',
+            color: 'white',
+          }}
+        >
+          <Typography variant="subtitle1" fontWeight="bold">
             Chat with {currentUser?.role} Assistant
           </Typography>
-          <IconButton onClick={handleClear} color="error" aria-label="Clear chat button">
-            Clear Chat
+          <IconButton onClick={onClose} sx={{ color: 'white' }} aria-label="Close chatbot">
+            <CloseIcon />
           </IconButton>
         </Box>
-        <Box sx={{ mb: 2, maxHeight: '60vh', overflowY: 'auto' }}>
+
+        {/* Messages Area */}
+        <Box
+          sx={{
+            flex: 1,
+            p: 2,
+            overflowY: 'auto',
+            bgcolor: '#fafafa',
+          }}
+        >
           {messages.map((msg, i) => (
             <Box key={i} sx={{ mb: 1 }}>
               {msg.user && (
@@ -122,18 +142,34 @@ const ChatbotModal: React.FC<ChatbotModalProps> = ({ open, onClose }) => {
             </Box>
           ))}
         </Box>
-        <Box sx={{ display: 'flex', gap: 1 }}>
+
+        {/* Footer */}
+        <Box
+          sx={{
+            flexShrink: 0,
+            display: 'flex',
+            gap: 1,
+            p: 2,
+            borderTop: '1px solid #e0e0e0',
+            bgcolor: 'white',
+            borderBottomLeftRadius: 12,
+            borderBottomRightRadius: 12,
+          }}
+        >
           <TextField
             fullWidth
+            size="small"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your question..."
             onKeyPress={(e: React.KeyboardEvent) => e.key === 'Enter' && handleSend()}
-            aria-label="Chat input field"
-            error={!input.trim() && messages.length > 0 && messages[messages.length - 1].bot === "Please enter a valid question."}
-            helperText={!input.trim() && messages.length > 0 && messages[messages.length - 1].bot === "Please enter a valid question." ? "Input cannot be empty" : ""}
           />
-          <Button variant="contained" onClick={handleSend} disabled={!input.trim()} aria-label="Send message button">
+          <Button
+            variant="contained"
+            onClick={handleSend}
+            disabled={!input.trim()}
+            aria-label="Send message button"
+          >
             Send
           </Button>
         </Box>

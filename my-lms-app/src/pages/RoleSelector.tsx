@@ -46,49 +46,59 @@ const RoleSelector = () => {
 
   const handleLogout = () => {
     if (currentUser) {
-      localStorage.removeItem('currentRole'); // Clear persisted role
-      window.location.reload(); // Reload to reset the app state
+      localStorage.removeItem('currentRole'); 
+      window.location.reload(); 
     }
   };
 
   if (!isUsersLoaded) return <div>Loading users data...</div>;
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: 2,
-        padding: 2,
-        maxWidth: '300px',
-        margin: 'auto',
-      }}
-    >
-      <Typography variant="h5" gutterBottom>
-        Select Your Role
-      </Typography>
-      <FormControl fullWidth>
-        <InputLabel id="role-select-label">Role</InputLabel>
-        <Select
-          labelId="role-select-label"
-          value={selectedRole}
-          onChange={(e) => setSelectedRole(e.target.value as string)}
-          label="Role"
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <Box
+        className="w-full max-w-sm p-6 bg-white shadow-lg rounded-2xl"
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 2,
+        }}
+      >
+        <Typography variant="h5" gutterBottom className="font-semibold text-gray-700">
+          Select Your Role
+        </Typography>
+        <FormControl fullWidth>
+          <InputLabel id="role-select-label">Role</InputLabel>
+          <Select
+            labelId="role-select-label"
+            value={selectedRole}
+            onChange={(e) => setSelectedRole(e.target.value as string)}
+            label="Role"
+          >
+            <MenuItem value="Admin">Admin</MenuItem>
+            <MenuItem value="Student">Student</MenuItem>
+          </Select>
+        </FormControl>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleSelect}
+          className="w-full mt-3"
         >
-          <MenuItem value="Admin">Admin</MenuItem>
-          <MenuItem value="Student">Student</MenuItem>
-        </Select>
-      </FormControl>
-      <Button variant="contained" color="primary" onClick={handleSelect}>
-        Login
-      </Button>
-      {currentUser && (
-        <Button variant="contained" color="secondary" onClick={handleLogout} sx={{ mt: 2 }}>
-          Logout
+          Login
         </Button>
-      )}
-    </Box>
+        {currentUser && (
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={handleLogout}
+            className="w-full mt-3"
+          >
+            Logout
+          </Button>
+        )}
+      </Box>
+    </div>
   );
 };
 
