@@ -2,7 +2,7 @@
   "admin": [
     {
       "q": "Show usage stats",
-      "a": "Here are your usage statistics.",
+      "a": "Here are the latest usage statistics for your role.",
       "chart": {
         "data": [
           { "name": "Mon", "value": 400 },
@@ -12,12 +12,23 @@
           { "name": "Fri", "value": 500 }
         ]
       }
+    },
+    {
+      "q": "Show active users",
+      "a": "The number of active users is 450.",
+      "chart": {
+        "data": [
+          { "name": "Week 1", "value": 400 },
+          { "name": "Week 2", "value": 450 },
+          { "name": "Week 3", "value": 420 }
+        ]
+      }
     }
   ],
   "student": [
     {
       "q": "Show my weekly progress",
-      "a": "Here’s your weekly progress.",
+      "a": "Here’s your weekly progress overview.",
       "chart": {
         "data": [
           { "name": "Week 1", "value": 20 },
@@ -26,6 +37,26 @@
           { "name": "Week 4", "value": 80 }
         ]
       }
+    },
+    {
+      "q": "Show my grades",
+      "a": "Your current grade average is 85%.",
+      "chart": {
+        "data": [
+          { "name": "Quiz 1", "value": 80 },
+          { "name": "Quiz 2", "value": 90 }
+        ]
+      }
+    }
+  ],
+  "intents": [
+    {
+      "q": "hello",
+      "a": "Hi! How can I assist you today?"
+    },
+    {
+      "q": "help",
+      "a": "You can ask 'Show my weekly progress' or 'Show usage stats' depending on your role!"
     }
   ]
 }

@@ -43,10 +43,10 @@ export const RoleProvider: React.FC<{ children: React.ReactNode }> = ({ children
   );
 };
 
-export const useRole = () => {
+export const useRole = (): RoleContextType => {
   const context = useContext(RoleContext);
   if (!context) {
     throw new Error('useRole must be used within a RoleProvider');
   }
-  return context;
+  return context as RoleContextType; // Explicit cast to ensure type safety
 };

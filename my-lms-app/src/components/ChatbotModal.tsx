@@ -1,19 +1,50 @@
 import React, { useState, useContext } from 'react';
-import { Modal, Box, TextField, Button, Typography } from '@mui/material';
+import { Modal, Box, TextField, Button, Typography, IconButton } from '@mui/material';
 import { RoleContext } from '../contexts/RoleContext';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import qaData from '../data/qa.json';
 
-const ChatbotModal = ({ open, onClose }) => {
-  const { currentUser } = useContext(RoleContext);
-  const [messages, setMessages] = useState([]);
+// Type definitions
+interface QAItem {
+  q: string;
+  a: string;
+  chart?: { data: { name: string; value: number }[] };
+}
+
+interface QAData {
+  [key: string]: QAItem[];
+}
+
+interface Message {
+  user?: string;
+  bot?: string;
+  botChart?: React.ReactNode;
+  timestamp: string;
+}
+
+interface ChatbotModalProps {
+  open: boolean;
+  onClose: () => void;
+}
+
+const ChatbotModal: React.FC<ChatbotModalProps> = ({ open, onClose }) => {
+  const context = useContext(RoleContext);
+  const { currentUser } = context || { currentUser: null };
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
 
   const handleSend = () => {
-    if (!input.trim()) return;
+    if (!input.trim()) {
+      setMessages(prev => [...prev, { bot: "Please enter a valid question.", timestamp: new Date().toLocaleTimeString() }]);
+      return;
+    }
 
-    const roleQa = qaData[currentUser?.role.toLowerCase() || ''];
-    const response = roleQa?.find(item => item.q.toLowerCase() === input.toLowerCase());
+    const roleQa = (qaData as QAData)[currentUser?.role.toLowerCase() || ''];
+    const intentQa = qaData.intents || [];
+    let response = roleQa?.find(item => item.q.toLowerCase() === input.toLowerCase());
+    if (!response) {
+      response = intentQa.find(item => item.q.toLowerCase() === input.toLowerCase());
+    }
 
     const newMessages = [...messages, { user: input, timestamp: new Date().toLocaleTimeString() }];
     if (response) {
@@ -36,13 +67,17 @@ const ChatbotModal = ({ open, onClose }) => {
       }
     } else {
       newMessages.push({
-        bot: "Sorry, I don't have an answer for that. Try 'Show my weekly progress' or 'Show usage stats'.",
+        bot: "Sorry, I don’t understand. Try 'Show my weekly progress', 'Show usage stats', 'hello', or 'help'.",
         timestamp: new Date().toLocaleTimeString(),
       });
     }
 
     setMessages(newMessages);
     setInput('');
+  };
+
+  const handleClear = () => {
+    setMessages([]);
   };
 
   return (
@@ -61,9 +96,14 @@ const ChatbotModal = ({ open, onClose }) => {
           overflowY: 'auto',
         }}
       >
-        <Typography variant="h6" gutterBottom>
-          Chat with {currentUser?.role} Assistant
-        </Typography>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+          <Typography variant="h6">
+            Chat with {currentUser?.role} Assistant
+          </Typography>
+          <IconButton onClick={handleClear} color="error">
+            Clear Chat
+          </IconButton>
+        </Box>
         <Box sx={{ mb: 2, maxHeight: '60vh', overflowY: 'auto' }}>
           {messages.map((msg, i) => (
             <Box key={i} sx={{ mb: 1 }}>
@@ -89,7 +129,9 @@ const ChatbotModal = ({ open, onClose }) => {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Type your question..."
-            onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+            onKeyPress={(e: React.KeyboardEvent) => e.key === 'Enter' && handleSend()}
+            error={!input.trim() && messages.length > 0 && messages[messages.length - 1].bot === "Please enter a valid question."}
+            helperText={!input.trim() && messages.length > 0 && messages[messages.length - 1].bot === "Please enter a valid question." ? "Input cannot be empty" : ""}
           />
           <Button variant="contained" onClick={handleSend} disabled={!input.trim()}>
             Send
