@@ -54,52 +54,65 @@ const RoleSelector = () => {
   if (!isUsersLoaded) return <div>Loading users data...</div>;
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <Box
-        className="w-full max-w-sm p-6 bg-white shadow-lg rounded-2xl"
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 2,
-        }}
+  <div className="relative flex items-center justify-center min-h-screen">
+    {/* Blurred background layer */}
+    <div
+      className="absolute inset-0 bg-cover bg-center"
+      style={{
+        backgroundImage: `url('/lms.png')`,
+        filter: 'blur(15px)',
+        zIndex: -1,
+      }}
+    ></div>
+
+    {/* Foreground content (not blurred) */}
+    <Box
+      className="w-full max-w-sm p-6 bg-white shadow-lg rounded-2xl bg-opacity-90 relative z-10"
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: 2,
+      }}
+    >
+      <Typography variant="h5" gutterBottom className="font-semibold text-gray-700">
+        Select Your Role
+      </Typography>
+      <FormControl fullWidth>
+        <InputLabel id="role-select-label">Role</InputLabel>
+        <Select
+          labelId="role-select-label"
+          value={selectedRole}
+          onChange={(e) => setSelectedRole(e.target.value as string)}
+          label="Role"
+        >
+          <MenuItem value="Admin">Admin</MenuItem>
+          <MenuItem value="Student">Student</MenuItem>
+        </Select>
+      </FormControl>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleSelect}
+        className="w-full mt-3"
       >
-        <Typography variant="h5" gutterBottom className="font-semibold text-gray-700">
-          Select Your Role
-        </Typography>
-        <FormControl fullWidth>
-          <InputLabel id="role-select-label">Role</InputLabel>
-          <Select
-            labelId="role-select-label"
-            value={selectedRole}
-            onChange={(e) => setSelectedRole(e.target.value as string)}
-            label="Role"
-          >
-            <MenuItem value="Admin">Admin</MenuItem>
-            <MenuItem value="Student">Student</MenuItem>
-          </Select>
-        </FormControl>
+        Login
+      </Button>
+      {currentUser && (
         <Button
           variant="contained"
-          color="primary"
-          onClick={handleSelect}
+          color="secondary"
+          onClick={handleLogout}
           className="w-full mt-3"
         >
-          Login
+          Logout
         </Button>
-        {currentUser && (
-          <Button
-            variant="contained"
-            color="secondary"
-            onClick={handleLogout}
-            className="w-full mt-3"
-          >
-            Logout
-          </Button>
-        )}
-      </Box>
-    </div>
-  );
+      )}
+    </Box>
+  </div>
+);
+
+
 };
 
 export default RoleSelector;

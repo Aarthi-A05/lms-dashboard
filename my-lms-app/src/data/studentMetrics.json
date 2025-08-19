@@ -11,6 +11,9 @@
   "quizHistory": [
     { "quiz": "Quiz 1", "score": 85, "date": "2025-08-15" },
     { "quiz": "Quiz 2", "score": 90, "date": "2025-08-10" },
+    { "quiz": "Quiz 3", "score": 78, "date": "2025-08-05" },
+    { "quiz": "Quiz 1", "score": 85, "date": "2025-08-15" },
+    { "quiz": "Quiz 2", "score": 90, "date": "2025-08-10" },
     { "quiz": "Quiz 3", "score": 78, "date": "2025-08-05" }
   ]
 }
