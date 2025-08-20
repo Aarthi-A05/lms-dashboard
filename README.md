@@ -29,8 +29,7 @@ To run the project locally:
 **Requirements**: Node.js v18+ installed.
 
 ## Deployment
-The application is hosted on Vercel: [Live Demo](https://your-vercel-url.vercel.app)  
-*(Note: Link will be updated after deployment in Phase 6.)*
+The application is hosted on Render: (https://lms-dashboard-mm3v.onrender.com) 
 
 ## Usage
 - Select a role (Admin or Student) on the login page.
